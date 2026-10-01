@@ -1,0 +1,9 @@
+{
+  "name": "My Jersey Studio",
+  "short_name": "Jersey Studio",
+  "start_url": "./#/landing",
+  "display": "standalone",
+  "background_color": "#03110f",
+  "theme_color": "#061814",
+  "description": "AI-assisted jersey design, personalization and production workspace."
+}

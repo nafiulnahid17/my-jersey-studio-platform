@@ -1,0 +1,6 @@
+export function json(data,status=200){return new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})}
+export function hex(bytes){return [...new Uint8Array(bytes)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+export function unhex(s){const out=new Uint8Array(s.length/2);for(let i=0;i<out.length;i++)out[i]=parseInt(s.slice(i*2,i*2+2),16);return out}
+export async function hashPassword(password,saltHex){const salt=saltHex?unhex(saltHex):crypto.getRandomValues(new Uint8Array(16));const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt,iterations:120000},key,256);return {salt:hex(salt),hash:hex(bits)}}
+export async function authUser(request,env){if(!env.DB)return null;const h=request.headers.get('authorization')||'';const token=h.startsWith('Bearer ')?h.slice(7):'';if(!token)return null;const row=await env.DB.prepare(`SELECT u.id,u.name,u.email,u.role,u.plan FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token=? AND s.expires_at > datetime('now')`).bind(token).first();return row||null}
+export function token(){const b=crypto.getRandomValues(new Uint8Array(32));return hex(b)}
