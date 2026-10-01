@@ -1,0 +1,11 @@
+name = "my-jersey-studio"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "."
+
+# Create a D1 database, then replace the placeholders below.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-jersey-studio"
+# database_id = "YOUR_D1_DATABASE_ID"
+
+# In Cloudflare Pages/Workers settings, add a Workers AI binding named AI.
